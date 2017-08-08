@@ -1,0 +1,672 @@
+EQUALIZER-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+    OBJECT-TYPE, MODULE-IDENTITY, enterprises,
+    Integer32, OBJECT-IDENTITY
+    	FROM SNMPv2-SMI
+    OBJECT-GROUP, MODULE-COMPLIANCE
+        FROM SNMPv2-CONF
+    DisplayString
+    	FROM SNMPv2-TC;
+
+equalizer MODULE-IDENTITY
+    LAST-UPDATED "201708070000Z"
+    ORGANIZATION "CM Comandos Lineares"
+    CONTACT-INFO "assistencia@cmcomandos.com.br"
+    DESCRIPTION
+       "Modulo de leitura do produto Equalizer."
+
+    REVISION "201708070000Z"
+    DESCRIPTION "Revisao inicial."
+
+    ::= { project 1 }
+
+-- We are hosted under The IMS Company OID.
+imsco			OBJECT IDENTIFIER ::= { enterprises 39178 }
+project			OBJECT IDENTIFIER ::= { imsco 100 }
+
+---settings object, counpounded by parameters, modulo, usuarios and redeseguranca tables
+
+settingsObject OBJECT-IDENTITY
+    STATUS          current
+    DESCRIPTION
+        "Main settings object for equalizer"
+    ::= { equalizer 1 }
+
+parametersEntry OBJECT-IDENTITY
+    STATUS  current
+    DESCRIPTION
+            "Parameters table"
+    ::= { settingsObject 1 }
+
+avgMax OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 1 }
+
+dutyMin OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 2 }
+
+dutyMax OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 3 }
+
+cteIndex OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 4 }
+
+delay OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 5 }
+
+numCyclesVarRead OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 6 }
+
+busVoltage OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 7 }
+
+saveLogTime OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 8 }
+
+diskCapacity OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 9 }
+
+param1 OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 10 }
+
+param2 OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 11 }
+
+param3 OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 12 }
+
+param4 OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 13 }
+
+param5 OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 14 }
+
+param6 OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 15 }
+
+param7 OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 16 }
+
+param8 OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 17 }
+
+param9 OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 18 }
+
+param10 OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { parametersEntry 19 }
+
+moduloObjectEntry OBJECT-IDENTITY
+    STATUS  current
+    DESCRIPTION
+            "Modulo table"
+    ::= { settingsObject 2 }
+
+descricao OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { moduloObjectEntry 1 }
+
+tensaoNominal OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { moduloObjectEntry 2 }
+
+capacidadeNominal OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { moduloObjectEntry 3 }
+
+nStrings OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { moduloObjectEntry 4 }
+
+nBateriasPorStrings OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { moduloObjectEntry 5 }
+
+contato OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { moduloObjectEntry 6 }
+
+localizacao OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { moduloObjectEntry 7 }
+
+fabricante OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { moduloObjectEntry 8 }
+
+tipo OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { moduloObjectEntry 9 }
+
+dataInstalacao OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { moduloObjectEntry 10 }
+
+confAlarmeId OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { moduloObjectEntry 11 }
+
+usuariosObjectEntry OBJECT-IDENTITY
+    STATUS  current
+    DESCRIPTION
+            "Usuarios table"
+    ::= { settingsObject 3 }
+
+nome OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { usuariosObjectEntry 1 }
+
+sobreNome OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { usuariosObjectEntry 2 }
+
+telefone OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { usuariosObjectEntry 3 }
+
+email OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { usuariosObjectEntry 4 }
+
+senha OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { usuariosObjectEntry 5 }
+
+acesso OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { usuariosObjectEntry 6 }
+
+redeSegurancaObjectEntry OBJECT-IDENTITY
+    STATUS  current
+    DESCRIPTION
+            "RedeSeguranca table"
+    ::= { settingsObject 4 }
+
+mac OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { redeSegurancaObjectEntry 1 }
+
+velocidadePlacaRede OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { redeSegurancaObjectEntry 2 }
+
+localAddress OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { redeSegurancaObjectEntry 3 }
+
+gateway OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { redeSegurancaObjectEntry 4 }
+
+mascara OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { redeSegurancaObjectEntry 5 }
+
+servidorDNS OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { redeSegurancaObjectEntry 6 }
+
+nomeDoSistema OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { redeSegurancaObjectEntry 7 }
+
+localDoSistema OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { redeSegurancaObjectEntry 8 }
+
+contatoDoSistema OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { redeSegurancaObjectEntry 9 }
+
+httpPort OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { redeSegurancaObjectEntry 10 }
+
+useHttps OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { redeSegurancaObjectEntry 11 }
+
+httpsPort OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { redeSegurancaObjectEntry 12 }
+
+httpTempoDeAtualizacao OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { redeSegurancaObjectEntry 13 }
+
+paginaPadraoHttp OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { redeSegurancaObjectEntry 14 }
+
+bateriaTable OBJECT-TYPE
+    SYNTAX     SEQUENCE OF BateriaEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+            "Tabela com as baterias do modulo"
+    ::= { equalizer 2 }
+
+bateriaEntry OBJECT-TYPE
+    SYNTAX     BateriaEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+            "An entry (conceptual row) in the sysORTable."
+    INDEX      { bateriaIndex }
+    ::= { bateriaTable 1 }
+
+BateriaEntry ::= SEQUENCE {
+    bateriaIndex  Integer32,
+    string     DisplayString,
+    bateria     DisplayString,
+    tensao        DisplayString,
+    temperatura     DisplayString,
+    impedancia    DisplayString,
+    equalizacao   DisplayString,
+    status        DisplayString
+}
+
+bateriaIndex OBJECT-TYPE
+    SYNTAX     Integer32(1..256)
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+            "Indice da tabela, corresponde ao ID do BD."
+    ::= { bateriaEntry 1 }
+
+string OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Identificador do banco."
+    ::= { bateriaEntry 2 }
+
+bateria OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Identificador da bateria no banco."
+    ::= { bateriaEntry 3 }
+
+tensao OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Tensao da bateria."
+    ::= { bateriaEntry 4 }
+
+temperatura OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Temperatura da bateria."
+    ::= { bateriaEntry 5 }
+
+impedancia OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Impedancia da bateria."
+    ::= { bateriaEntry 6 }
+
+equalizacao OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Equalizacao da bateria."
+    ::= { bateriaEntry 7 }
+
+status OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Impedancia da bateria."
+    ::= { bateriaEntry 8 }
+
+---
+--- equalizerConformance
+---
+
+equalizerCompliance
+               OBJECT IDENTIFIER ::= { equalizer 4 }
+equalizerGroups
+               OBJECT IDENTIFIER ::= { equalizer 5 }
+
+equalizerComplianceRev1 MODULE-COMPLIANCE
+    STATUS  current
+    DESCRIPTION
+            "The compliance statement for SNMP entities which
+            implement this MIB module."
+    MODULE  -- this module
+        MANDATORY-GROUPS { parameterGroup,
+                  moduloGroup,
+                  usuariosGroup,
+                  redeSegurancaGroup,
+                  bateriasGroup
+                }
+    ::= { equalizerCompliance 1 }
+
+parameterGroup OBJECT-GROUP
+    OBJECTS {
+      avgMax,
+      dutyMin,
+      dutyMax,
+      cteIndex,
+      delay,
+      numCyclesVarRead,
+      busVoltage,
+      saveLogTime,
+      diskCapacity,
+      param1,
+      param2,
+      param3,
+      param4,
+      param5,
+      param6,
+      param7,
+      param8,
+      param9,
+      param10
+    }
+    STATUS  current
+    DESCRIPTION
+            "Basic parameters group."
+    ::= { equalizerGroups 1 }
+
+moduloGroup OBJECT-GROUP
+    OBJECTS {
+      descricao,
+      tensaoNominal,
+      capacidadeNominal,
+      nStrings,
+      nBateriasPorStrings,
+      contato,
+      localizacao,
+      fabricante,
+      tipo,
+      dataInstalacao,
+      confAlarmeId
+     }
+    STATUS  current
+    DESCRIPTION
+            "Basic modulo group."
+    ::= { equalizerGroups 2 }
+
+usuariosGroup OBJECT-GROUP
+    OBJECTS {
+      nome,
+      sobreNome,
+      telefone,
+      email,
+      senha,
+      acesso
+    }
+    STATUS  current
+    DESCRIPTION
+            "Basic usuarios group."
+    ::= { equalizerGroups 3 }
+
+redeSegurancaGroup OBJECT-GROUP
+    OBJECTS {
+      mac,
+      velocidadePlacaRede,
+      localAddress,
+      gateway,
+      mascara,
+      servidorDNS,
+      nomeDoSistema,
+      localDoSistema,
+      contatoDoSistema,
+      httpPort,
+      useHttps,
+      httpsPort,
+      httpTempoDeAtualizacao,
+      paginaPadraoHttp
+    }
+    STATUS  current
+    DESCRIPTION
+            "Basic RedeSeguranca group."
+    ::= { equalizerGroups 4 }
+
+bateriasGroup OBJECT-GROUP
+    OBJECTS {
+      string,
+      bateria,
+      tensao,
+      temperatura,
+      impedancia,
+      equalizacao,
+      status
+    }
+    STATUS  current
+    DESCRIPTION
+            "Basic usuarios group."
+    ::= { equalizerGroups 5 }
+
+END
