@@ -1,6 +1,7 @@
 #!/usr/bin/python -u
 from sqlalchemy.orm import sessionmaker
-from db_engine import engine, Usuario, Modulo, AlarmeConfig, RedeSeguranca, DataLog
+from pysnmp.hlapi import *
+from db_engine import engine, Usuario, Modulo, AlarmeConfig, RedeSeguranca, DataLogRT
 from db_engine import TimeServer, EmailServer, AlarmLog, Parameters
 import json
 import sys
@@ -90,6 +91,23 @@ def addRedeToOIDs(rede, pp):
     pp.add_int(element_dic_inv["httpTempoDeAtualizacao"], rede.httpTempoDeAtualizacao)
     pp.add_str(element_dic_inv["paginaPadraoHttp"], rede.paginaPadraoHttp)
 
+def addBateriaToOIDs(bat_list, pp):
+    # Add table lines to "bateria"
+    i = 1
+    for item in bat_list:
+        logging.info("Adiciona bateria {} nos OIDs".format(i))
+        pp.add_str(element_dic_inv["bateria_index"] + "." + str(i), item.id)
+        pp.add_str(element_dic_inv["string"] + "." + str(i), item.string)
+        pp.add_str(element_dic_inv["bateria"] + "." + str(i), item.bateria)
+        pp.add_str(element_dic_inv["tensao"] + "." + str(i), str(item.tensao))
+        pp.add_str(element_dic_inv["temperatura"] + "." + str(i), str(item.temperatura))
+        pp.add_str(element_dic_inv["impedancia"] + "." + str(i), str(item.impedancia))
+        pp.add_str(element_dic_inv["equalizacao"] + "." + str(i), str(item.equalizacao))
+        # Check if an alarm should be triggered and send "Com Alarme"
+        pp.add_str(element_dic_inv["status"] + "." + str(i), "Com Alarme")
+        # pp.add_str(element_dic_inv["status"] + str(i), "Sem Alarme")
+        i += 1
+
 def main_update():
     logging.info("Main update")
     session = Session()
@@ -102,13 +120,16 @@ def main_update():
     m = session.query(Modulo).first()
     addModultoToOIDs(m, pp)
 
-    u = session.query(Usuario).first()
-    addUsuarioToOIDs(u, pp)
+    # u = session.query(Usuario).first()
+    # addUsuarioToOIDs(u, pp)
 
-    r = session.query(RedeSeguranca).first()
-    addRedeToOIDs(r, pp)
+    # r = session.query(RedeSeguranca).first()
+    # addRedeToOIDs(r, pp)
+
+    dlog = session.query(DataLogRT).limit(int(m.n_baterias_por_strings * m.n_strings))
+    addBateriaToOIDs(dlog, pp)
     session.close()
 
 logging.info("Registra OID")
-pp = snmp.PassPersist('.1.3.6.1.4.1.39178.100.1.1.1.2')
-pp.start(main_update, 10)
+pp = snmp.PassPersist('.1.3.6.1.4.1.39178.100.1')
+pp.start(main_update, 60)

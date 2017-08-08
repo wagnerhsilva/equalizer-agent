@@ -4,7 +4,7 @@ from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
 
 # engine = create_engine('sqlite:////home/prjs/cm_comandos_lineares/equalizer-agent/equalizerdb', echo=False)
-engine = create_engine('sqlite:///home/root/equalizer-agent/equalizerdb', echo=False)
+engine = create_engine('sqlite:////home/root/equalizer-agent/equalizerdb', echo=False)
 
 Base = declarative_base()
 
@@ -78,13 +78,13 @@ class RedeSeguranca(Base):
     httpTempoDeAtualizacao = Column(Integer)
     paginaPadraoHttp = Column(String)
 
-class DataLog(Base):
-    __tablename__ = "DataLog"
+class DataLogRT(Base):
+    __tablename__ = "DataLogRT"
 
     id = Column(Integer, primary_key=True)
     dataHora = Column(String)
     string = Column(String)
-    bateria = Column()
+    bateria = Column(String)
     temperatura = Column(Float)
     impedancia = Column(Float)
     tensao = Column(Float)

@@ -52,5 +52,13 @@
   "1.4.11": "useHttps",
   "1.4.12": "httpsPort",
   "1.4.13": "httpTempoDeAtualizacao",
-  "1.4.14": "paginaPadraoHttp"
+  "1.4.14": "paginaPadraoHttp",
+  "2.1.1": "bateria_index",
+  "2.1.2": "string",
+  "2.1.3": "bateria",
+  "2.1.4": "tensao",
+  "2.1.5": "temperatura",
+  "2.1.6": "impedancia",
+  "2.1.7": "equalizacao",
+  "2.1.8": "status"
 }
