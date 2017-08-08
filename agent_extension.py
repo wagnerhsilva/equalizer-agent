@@ -120,11 +120,11 @@ def main_update():
     m = session.query(Modulo).first()
     addModultoToOIDs(m, pp)
 
-    # u = session.query(Usuario).first()
-    # addUsuarioToOIDs(u, pp)
+    u = session.query(Usuario).first()
+    addUsuarioToOIDs(u, pp)
 
-    # r = session.query(RedeSeguranca).first()
-    # addRedeToOIDs(r, pp)
+    r = session.query(RedeSeguranca).first()
+    addRedeToOIDs(r, pp)
 
     dlog = session.query(DataLogRT).limit(int(m.n_baterias_por_strings * m.n_strings))
     addBateriaToOIDs(dlog, pp)
