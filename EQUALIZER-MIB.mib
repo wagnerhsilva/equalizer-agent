@@ -457,6 +457,326 @@ paginaPadraoHttp OBJECT-TYPE
             "Description"
     ::= { redeSegurancaObjectEntry 14 }
 
+emailServerEntry OBJECT-IDENTITY
+    STATUS  current
+    DESCRIPTION
+            "EmailServer table"
+    ::= { settingsObject 5 }
+
+server OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { emailServerEntry 1 }
+
+portaSMTP OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { emailServerEntry 2 }
+
+usarCriptografiaTLS OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { emailServerEntry 3 }
+
+emailAdmin OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { emailServerEntry 4 }
+
+assunto OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { emailServerEntry 5 }
+
+usarAutenticacao OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { emailServerEntry 6 }
+
+login OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { emailServerEntry 7 }
+
+timeServerEntry OBJECT-IDENTITY
+    STATUS  current
+    DESCRIPTION
+            "TimeServer table"
+    ::= { settingsObject 6 }
+
+timeServerAddress1 OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { timeServerEntry 1 }
+
+timeServerAddress1Complemento OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { timeServerEntry 2 }
+
+timeServerAddress2 OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { timeServerEntry 3 }
+
+timeServerAddress2Complemento OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { timeServerEntry 4 }
+
+timeServerAddress3 OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { timeServerEntry 5 }
+
+timeServerAddress3Complemento OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { timeServerEntry 6 }
+
+connectionRetries OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { timeServerEntry 7 }
+
+timeZone OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { timeServerEntry 8 }
+
+automAdjustLightSaving OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { timeServerEntry 9 }
+
+alarmeConfigEntry OBJECT-IDENTITY
+    STATUS  current
+    DESCRIPTION
+            "AlarmeConfig table"
+    ::= { settingsObject 7 }
+
+tipoModulo OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 1 }
+
+nivelAlertTensaoMax OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 2 }
+
+nivelAlertTensaoMin OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 3 }
+
+nivelAlertTempMax OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 4 }
+
+nivelAlertTempMin OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 5 }
+
+nivelAlertImpedanciaMax OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 6 }
+
+nivelAlertImpedanciaMin OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 7 }
+
+nivelMaxTensaoAtivo OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 8 }
+
+nivelMaxTensaoVal OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 9 }
+
+alarmeNivelTensaoMax OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 10 }
+
+alarmeNivelTensaoMin OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 11 }
+
+alarmeNivelTempMax OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 12 }
+
+alarmeNivelTempMin OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 13 }
+
+alarmeNivelImpedMax OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 14 }
+
+alarmeNivelImpedMin OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 15 }
+
+alarmeNivelTensaoBarrMin OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 16 }
+
+alarmeNivelTensaoBarrMax OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 17 }
+
+alarmeNivelTargetMin OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 18 }
+
+alarmeNivelTargetMax OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { alarmeConfigEntry 19 }
+
+apelidoStringEntry OBJECT-IDENTITY
+    STATUS  current
+    DESCRIPTION
+            "ApelidoString table"
+    ::= { settingsObject 8 }
+
+apString OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { apelidoStringEntry 1 }
+
+apelido OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+            "Description"
+    ::= { apelidoStringEntry 2 }
+
 bateriaTable OBJECT-TYPE
     SYNTAX     SEQUENCE OF BateriaEntry
     MAX-ACCESS not-accessible
@@ -568,7 +888,11 @@ equalizerComplianceRev1 MODULE-COMPLIANCE
                   moduloGroup,
                   usuariosGroup,
                   redeSegurancaGroup,
-                  bateriasGroup
+                  bateriasGroup,
+                  emailServerGroup,
+                  timeServerGroup,
+                  alarmeConfigGroup,
+                  apelidoStringGroup
                 }
     ::= { equalizerCompliance 1 }
 
@@ -666,7 +990,77 @@ bateriasGroup OBJECT-GROUP
     }
     STATUS  current
     DESCRIPTION
-            "Basic usuarios group."
+            "Baterias group."
     ::= { equalizerGroups 5 }
+
+emailServerGroup OBJECT-GROUP
+    OBJECTS {
+      server,
+      portaSMTP,
+      usarCriptografiaTLS,
+      emailAdmin,
+      assunto,
+      usarAutenticacao,
+      login
+    }
+    STATUS  current
+    DESCRIPTION
+          "EmailServer group."
+    ::= { equalizerGroups 6 }
+
+timeServerGroup OBJECT-GROUP
+    OBJECTS {
+      timeServerAddress1,
+      timeServerAddress1Complemento,
+      timeServerAddress2,
+      timeServerAddress2Complemento,
+      timeServerAddress3,
+      timeServerAddress3Complemento,
+      connectionRetries,
+      timeZone,
+      automAdjustLightSaving
+    }
+    STATUS  current
+    DESCRIPTION
+          "TimeServer group."
+    ::= { equalizerGroups 7 }
+
+alarmeConfigGroup OBJECT-GROUP
+    OBJECTS {
+      tipoModulo,
+      nivelAlertTensaoMax,
+      nivelAlertTensaoMin,
+      nivelAlertTempMax,
+      nivelAlertTempMin,
+      nivelAlertImpedanciaMax,
+      nivelAlertImpedanciaMin,
+      nivelMaxTensaoAtivo,
+      nivelMaxTensaoVal,
+      alarmeNivelTensaoMax,
+      alarmeNivelTensaoMin,
+      alarmeNivelTempMax,
+      alarmeNivelTempMin,
+      alarmeNivelImpedMax,
+      alarmeNivelImpedMin,
+      alarmeNivelTensaoBarrMin,
+      alarmeNivelTensaoBarrMax,
+      alarmeNivelTargetMin,
+      alarmeNivelTargetMax
+    }
+    STATUS  current
+    DESCRIPTION
+          "AlarmeConfig group."
+    ::= { equalizerGroups 8 }
+
+apelidoStringGroup OBJECT-GROUP
+    OBJECTS {
+      apString,
+      apelido
+    }
+    STATUS  current
+    DESCRIPTION
+          "ApelidoString group."
+    ::= { equalizerGroups 9 }
+
 
 END
