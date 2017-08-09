@@ -777,13 +777,19 @@ apelido OBJECT-TYPE
             "Description"
     ::= { apelidoStringEntry 2 }
 
+bateriaObject OBJECT-IDENTITY
+    STATUS  current
+    DESCRIPTION
+            "Bateria object"
+    ::= { equalizer 2 }
+
 bateriaTable OBJECT-TYPE
     SYNTAX     SEQUENCE OF BateriaEntry
     MAX-ACCESS not-accessible
     STATUS     current
     DESCRIPTION
             "Tabela com as baterias do modulo"
-    ::= { equalizer 2 }
+    ::= { bateriaObject 1 }
 
 bateriaEntry OBJECT-TYPE
     SYNTAX     BateriaEntry
@@ -868,6 +874,22 @@ status OBJECT-TYPE
     DESCRIPTION
             "Impedancia da bateria."
     ::= { bateriaEntry 8 }
+
+tensaoBarr OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Tensao de barramento."
+    ::= { bateriaObject 2 }
+
+target OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Target de tensao."
+    ::= { bateriaObject 3 }
 
 ---
 --- equalizerConformance
@@ -986,7 +1008,9 @@ bateriasGroup OBJECT-GROUP
       temperatura,
       impedancia,
       equalizacao,
-      status
+      status,
+      tensaoBarr,
+      target
     }
     STATUS  current
     DESCRIPTION

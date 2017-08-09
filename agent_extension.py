@@ -1,6 +1,5 @@
 #!/usr/bin/python -u
 from sqlalchemy.orm import sessionmaker
-from pysnmp.hlapi import *
 from db_engine import engine, Usuario, Modulo, AlarmeConfig, RedeSeguranca, DataLogRT
 from db_engine import TimeServer, EmailServer, AlarmLog, Parameters, ApelidoString
 import json
@@ -69,7 +68,7 @@ def addModultoToOIDs(modulo, pp):
     pp.add_int(element_dic_inv["conf_alarme_id"], modulo.conf_alarme_id)
 
 def addUsuarioToOIDs(user, pp):
-    logging.info("Adiciona usuario nos OIDs")
+    logging.info("Adiciona usuario {} nos OIDs".format(i))
     i = 1
     for item in user:
         pp.add_str(element_dic_inv["nome"] + "." + str(i), item.nome)
@@ -150,9 +149,10 @@ def addApelidoStringToOIDs(ap_list, pp):
         pp.add_str(element_dic_inv["apelido"] + "." + str(i), item.apelido)
         i += 1
 
-def addBateriaToOIDs(bat_list, pp):
+def addBateriaToOIDs(bat_list, pp, n_bat, n_string):
     # Add table lines to "bateria"
     i = 1
+    target = 0
     for item in bat_list:
         logging.info("Adiciona bateria {} nos OIDs".format(i))
         pp.add_str(element_dic_inv["bateria_index"] + "." + str(i), item.id)
@@ -165,7 +165,11 @@ def addBateriaToOIDs(bat_list, pp):
         # Check if an alarm should be triggered and send "Com Alarme"
         pp.add_str(element_dic_inv["status"] + "." + str(i), "Com Alarme")
         # pp.add_str(element_dic_inv["status"] + str(i), "Sem Alarme")
+        # Sum values to get target and tensBarr
+        target += item.tensao
         i += 1
+    pp.add_str(element_dic_inv["target"], str(target/(1000*n_bat*n_string)))
+    pp.add_str(element_dic_inv["tensBarr"], str(target/(1000*n_string)))
 
 def addAlarmToOIDs(alarms, pp):
     # Add table lines to "bateria"
@@ -211,7 +215,7 @@ def main_update():
     # These should go to the "bateria" object
     # "DatalogRT" e "Datalog".
     dlog = session.query(DataLogRT).limit(int(m.n_baterias_por_strings * m.n_strings))
-    addBateriaToOIDs(dlog, pp)
+    addBateriaToOIDs(dlog, pp, m.n_baterias_por_strings, m.n_strings)
 
     session.close()
 
