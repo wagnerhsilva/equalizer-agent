@@ -26,6 +26,7 @@ class Modulo(Base):
 
     id = Column(Integer, primary_key=True)
     descricao = Column(String)
+    # There is a problem with the base, this value is a String, but the column is defined as Real
     tensao_nominal = Column(Float)
     capacidade_nominal = Column(Integer)
     n_strings = Column(Integer)

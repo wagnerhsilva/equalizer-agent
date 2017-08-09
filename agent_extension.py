@@ -56,6 +56,7 @@ def addParametersToOIDs(parameter, pp):
 def addModultoToOIDs(modulo, pp):
     logging.info("Adiciona modulo nos OIDs")
     pp.add_str(element_dic_inv["descricao"], modulo.descricao)
+    # There is a problem with the DB, this value is a String, but the column is defined as Real
     pp.add_str(element_dic_inv["tensao_nominal"], str(modulo.tensao_nominal))
     pp.add_int(element_dic_inv["capacidade_nominal"], modulo.capacidade_nominal)
     pp.add_int(element_dic_inv["n_strings"], modulo.n_strings)
@@ -68,7 +69,7 @@ def addModultoToOIDs(modulo, pp):
     pp.add_int(element_dic_inv["conf_alarme_id"], modulo.conf_alarme_id)
 
 def addUsuarioToOIDs(user, pp):
-    logging.info("Adiciona usuario {} nos OIDs".format(i))
+    logging.info("Adiciona usuario nos OIDs")
     i = 1
     for item in user:
         pp.add_str(element_dic_inv["nome"] + "." + str(i), item.nome)
@@ -122,24 +123,24 @@ def addTimeServerToOIDs(timeserver, pp):
 def addAlarmeConfigToOIDs(ac, pp):
     logging.info("Adiciona alarmeConfig nos OIDs")
     pp.add_str(element_dic_inv["tipo_modulo"], ac.tipo_modulo)
-    pp.add_str(element_dic_inv["nivel_alert_tensao_max"], str(ac.nivel_alert_tensao_max))
-    pp.add_str(element_dic_inv["nivel_alert_tensao_min"], str(ac.nivel_alert_tensao_min))
-    pp.add_str(element_dic_inv["nivel_alert_temp_max"], str(ac.nivel_alert_temp_max))
-    pp.add_str(element_dic_inv["nivel_alert_temp_min"], str(ac.nivel_alert_temp_min))
-    pp.add_str(element_dic_inv["nivel_alert_impedancia_max"], str(ac.nivel_alert_impedancia_max))
-    pp.add_str(element_dic_inv["nivel_alert_impedancia_min"], str(ac.nivel_alert_impedancia_min))
+    pp.add_str(element_dic_inv["nivel_alert_tensao_max"], str(ac.nivel_alert_tensao_max/1000))
+    pp.add_str(element_dic_inv["nivel_alert_tensao_min"], str(ac.nivel_alert_tensao_min/1000))
+    pp.add_str(element_dic_inv["nivel_alert_temp_max"], str(ac.nivel_alert_temp_max/1000))
+    pp.add_str(element_dic_inv["nivel_alert_temp_min"], str(ac.nivel_alert_temp_min/1000))
+    pp.add_str(element_dic_inv["nivel_alert_impedancia_max"], str(ac.nivel_alert_impedancia_max/1000))
+    pp.add_str(element_dic_inv["nivel_alert_impedancia_min"], str(ac.nivel_alert_impedancia_min/1000))
     pp.add_str(element_dic_inv["nivel_max_tensao_ativo"], str(ac.nivel_max_tensao_ativo))
-    pp.add_str(element_dic_inv["nivel_max_tensao_val"], str(ac.nivel_max_tensao_val))
-    pp.add_str(element_dic_inv["alarme_nivel_tensao_max"], str(ac.alarme_nivel_tensao_max))
-    pp.add_str(element_dic_inv["alarme_nivel_tensao_min"], str(ac.alarme_nivel_tensao_min))
-    pp.add_str(element_dic_inv["alarme_nivel_temp_max"], str(ac.alarme_nivel_temp_max))
-    pp.add_str(element_dic_inv["alarme_nivel_temp_min"], str(ac.alarme_nivel_temp_min))
-    pp.add_str(element_dic_inv["alarme_nivel_imped_max"], str(ac.alarme_nivel_imped_max))
-    pp.add_str(element_dic_inv["alarme_nivel_imped_min"], str(ac.alarme_nivel_imped_min))
-    pp.add_str(element_dic_inv["alarme_nivel_tensaoBarr_min"], str(ac.alarme_nivel_tensaoBarr_min))
-    pp.add_str(element_dic_inv["alarme_nivel_tensaoBarr_max"], str(ac.alarme_nivel_tensaoBarr_max))
-    pp.add_str(element_dic_inv["alarme_nivel_target_min"], str(ac.alarme_nivel_target_min))
-    pp.add_str(element_dic_inv["alarme_nivel_target_max"], str(ac.alarme_nivel_target_max))
+    pp.add_str(element_dic_inv["nivel_max_tensao_val"], str(ac.nivel_max_tensao_val/1000))
+    pp.add_str(element_dic_inv["alarme_nivel_tensao_max"], str(ac.alarme_nivel_tensao_max/1000))
+    pp.add_str(element_dic_inv["alarme_nivel_tensao_min"], str(ac.alarme_nivel_tensao_min/1000))
+    pp.add_str(element_dic_inv["alarme_nivel_temp_max"], str(ac.alarme_nivel_temp_max/1000))
+    pp.add_str(element_dic_inv["alarme_nivel_temp_min"], str(ac.alarme_nivel_temp_min/1000))
+    pp.add_str(element_dic_inv["alarme_nivel_imped_max"], str(ac.alarme_nivel_imped_max/1000))
+    pp.add_str(element_dic_inv["alarme_nivel_imped_min"], str(ac.alarme_nivel_imped_min/1000))
+    pp.add_str(element_dic_inv["alarme_nivel_tensaoBarr_min"], str(ac.alarme_nivel_tensaoBarr_min/1000))
+    pp.add_str(element_dic_inv["alarme_nivel_tensaoBarr_max"], str(ac.alarme_nivel_tensaoBarr_max/1000))
+    pp.add_str(element_dic_inv["alarme_nivel_target_min"], str(ac.alarme_nivel_target_min/1000))
+    pp.add_str(element_dic_inv["alarme_nivel_target_max"], str(ac.alarme_nivel_target_max/1000))
 
 def addApelidoStringToOIDs(ap_list, pp):
     logging.info("Adiciona apelidos nos OIDs")
@@ -158,10 +159,10 @@ def addBateriaToOIDs(bat_list, pp, n_bat, n_string):
         pp.add_str(element_dic_inv["bateria_index"] + "." + str(i), item.id)
         pp.add_str(element_dic_inv["string"] + "." + str(i), item.string)
         pp.add_str(element_dic_inv["bateria"] + "." + str(i), item.bateria)
-        pp.add_str(element_dic_inv["tensao"] + "." + str(i), str(item.tensao))
-        pp.add_str(element_dic_inv["temperatura"] + "." + str(i), str(item.temperatura))
-        pp.add_str(element_dic_inv["impedancia"] + "." + str(i), str(item.impedancia))
-        pp.add_str(element_dic_inv["equalizacao"] + "." + str(i), str(item.equalizacao))
+        pp.add_str(element_dic_inv["tensao"] + "." + str(i), str(item.tensao/1000))
+        pp.add_str(element_dic_inv["temperatura"] + "." + str(i), str(item.temperatura/1000))
+        pp.add_str(element_dic_inv["impedancia"] + "." + str(i), str(item.impedancia/1000))
+        pp.add_str(element_dic_inv["equalizacao"] + "." + str(i), str(item.equalizacao/1000))
         # Check if an alarm should be triggered and send "Com Alarme"
         pp.add_str(element_dic_inv["status"] + "." + str(i), "Com Alarme")
         # pp.add_str(element_dic_inv["status"] + str(i), "Sem Alarme")
