@@ -882,6 +882,14 @@ target OBJECT-TYPE
             "Target de tensao."
     ::= { bateriaObject 3 }
 
+bateriaLogTable OBJECT-TYPE
+    SYNTAX     SEQUENCE OF BateriaEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+            "Tabela com os dados historicos de baterias do modulo"
+    ::= { bateriaObject 4 }
+
 ---
 --- equalizerConformance
 ---
