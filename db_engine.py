@@ -95,6 +95,18 @@ class DataLogRT(Base):
     tensao = Column(Float)
     equalizacao = Column(Float)
 
+class DataLog(Base):
+    __tablename__ = "DataLog"
+
+    id = Column(Integer, primary_key=True)
+    dataHora = Column(String)
+    string = Column(String)
+    bateria = Column(String)
+    temperatura = Column(Float)
+    impedancia = Column(Float)
+    tensao = Column(Float)
+    equalizacao = Column(Float)
+
 class TimeServer(Base):
     __tablename__ = "TimeServer"
 

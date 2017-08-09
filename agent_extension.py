@@ -1,7 +1,7 @@
 #!/usr/bin/python -u
 from sqlalchemy.orm import sessionmaker
 from db_engine import engine, Usuario, Modulo, AlarmeConfig, RedeSeguranca, DataLogRT
-from db_engine import TimeServer, EmailServer, AlarmLog, Parameters, ApelidoString
+from db_engine import TimeServer, EmailServer, AlarmLog, Parameters, ApelidoString, DataLog
 import json
 import sys
 import logging
@@ -166,6 +166,20 @@ def addBateriaToOIDs(bat_list, pp, n_bat, n_string):
     pp.add_str(element_dic_inv["target"], str(target/(1000*n_bat*n_string)))
     pp.add_str(element_dic_inv["tensBarr"], str(target/(1000*n_string)))
 
+def addBateriaLogToOIDs(bat_list, pp):
+    # Add table lines to "bateria"
+    i = 1
+    for item in bat_list:
+        logging.info("Adiciona bateria {} nos OIDs".format(i))
+        pp.add_str(element_dic_inv["bateria_index_log"] + "." + str(i), item.id)
+        pp.add_str(element_dic_inv["string_log"] + "." + str(i), item.string)
+        pp.add_str(element_dic_inv["bateria_log"] + "." + str(i), item.bateria)
+        pp.add_str(element_dic_inv["tensao_log"] + "." + str(i), str(item.tensao/1000))
+        pp.add_str(element_dic_inv["temperatura_log"] + "." + str(i), str(item.temperatura/1000))
+        pp.add_str(element_dic_inv["impedancia_log"] + "." + str(i), str(item.impedancia/1000))
+        pp.add_str(element_dic_inv["equalizacao_log"] + "." + str(i), str(item.equalizacao/1000))
+        i += 1
+
 def addAlarmToOIDs(alarms, pp):
     # Add table lines to "bateria"
     i = 1
@@ -208,8 +222,11 @@ def main_update():
 
     # These should go to the "bateria" object
     # "DatalogRT" e "Datalog".
-    dlog = session.query(DataLogRT).limit(int(m.n_baterias_por_strings * m.n_strings))
-    addBateriaToOIDs(dlog, pp, m.n_baterias_por_strings, m.n_strings)
+    dlogRt = session.query(DataLogRT).limit(int(m.n_baterias_por_strings * m.n_strings))
+    addBateriaToOIDs(dlogRt, pp, m.n_baterias_por_strings, m.n_strings)
+
+    dlog = session.query(DataLog).limit(15)
+    addBateriaLogToOIDs(dlog, pp)
 
     session.close()
 
