@@ -2,7 +2,7 @@
 from sqlalchemy.orm import sessionmaker
 from pysnmp.hlapi import *
 from db_engine import engine, Usuario, Modulo, AlarmeConfig, RedeSeguranca, DataLogRT
-from db_engine import TimeServer, EmailServer, AlarmLog, Parameters
+from db_engine import TimeServer, EmailServer, AlarmLog, Parameters, ApelidoString
 import json
 import sys
 import logging
@@ -17,6 +17,9 @@ logging.info("Iniciando agente extra")
 
 # Create DB sessionmaker, every request will have open and close a new session
 Session = sessionmaker(bind=engine)
+
+# Create counter for alarm entries
+alarm_table_count = 0
 
 # Load json
 # with open("/home/prjs/cm_comandos_lineares/equalizer-agent/element_mib.json", "r") as fd:
@@ -67,12 +70,15 @@ def addModultoToOIDs(modulo, pp):
 
 def addUsuarioToOIDs(user, pp):
     logging.info("Adiciona usuario nos OIDs")
-    pp.add_str(element_dic_inv["nome"], user.nome)
-    pp.add_str(element_dic_inv["sobreNome"], user.sobreNome)
-    pp.add_str(element_dic_inv["telefone"], user.telefone)
-    pp.add_str(element_dic_inv["email"], user.email)
-    pp.add_str(element_dic_inv["senha"], user.senha)
-    pp.add_str(element_dic_inv["acesso"], user.acesso)
+    i = 1
+    for item in user:
+        pp.add_str(element_dic_inv["nome"] + "." + str(i), item.nome)
+        pp.add_str(element_dic_inv["sobreNome"] + "." + str(i), item.sobreNome)
+        pp.add_str(element_dic_inv["telefone"] + "." + str(i), item.telefone)
+        pp.add_str(element_dic_inv["email"] + "." + str(i), item.email)
+        # pp.add_str(element_dic_inv["senha"], item.senha)
+        pp.add_str(element_dic_inv["acesso"] + "." + str(i), item.acesso)
+        i += 1
 
 def addRedeToOIDs(rede, pp):
     logging.info("Adiciona rede nos OIDs")
@@ -91,6 +97,59 @@ def addRedeToOIDs(rede, pp):
     pp.add_int(element_dic_inv["httpTempoDeAtualizacao"], rede.httpTempoDeAtualizacao)
     pp.add_str(element_dic_inv["paginaPadraoHttp"], rede.paginaPadraoHttp)
 
+def addEmailServerToOIDs(email, pp):
+    logging.info("Adiciona EmailServer nos OIDs")
+    pp.add_str(element_dic_inv["server"], email.server)
+    pp.add_int(element_dic_inv["portaSMTP"], email.portaSMTP)
+    pp.add_int(element_dic_inv["usarCriptografiaTLS"], email.usarCriptografiaTLS)
+    pp.add_str(element_dic_inv["emailAdmin"], email.email)
+    pp.add_str(element_dic_inv["assunto"], email.assunto)
+    pp.add_int(element_dic_inv["usarAutenticacao"], email.usarAutenticacao)
+    pp.add_str(element_dic_inv["login"], email.login)
+    # pp.add_str(element_dic_inv["senha"], email.senha)
+
+def addTimeServerToOIDs(timeserver, pp):
+    logging.info("Adiciona timeServer nos OIDs")
+    pp.add_str(element_dic_inv["timeServerAddress1"], timeserver.timeServerAddress1)
+    pp.add_str(element_dic_inv["timeServerAddress1_complemento"], timeserver.timeServerAddress1_complemento)
+    pp.add_str(element_dic_inv["timeServerAddress2"], timeserver.timeServerAddress2)
+    pp.add_str(element_dic_inv["timeServerAddress2_complemento"], timeserver.timeServerAddress2_complemento)
+    pp.add_str(element_dic_inv["timeServerAddress3"], timeserver.timeServerAddress3)
+    pp.add_str(element_dic_inv["timeServerAddress3_complemento"], timeserver.timeServerAddress3_complemento)
+    pp.add_int(element_dic_inv["connectionRetries"], timeserver.connectionRetries)
+    pp.add_str(element_dic_inv["timeZone"], timeserver.timeZone)
+    pp.add_int(element_dic_inv["automAdjustTimeDaylightSavingChanges"], timeserver.automAdjustTimeDaylightSavingChanges)
+
+def addAlarmeConfigToOIDs(ac, pp):
+    logging.info("Adiciona alarmeConfig nos OIDs")
+    pp.add_str(element_dic_inv["tipo_modulo"], ac.tipo_modulo)
+    pp.add_str(element_dic_inv["nivel_alert_tensao_max"], str(ac.nivel_alert_tensao_max))
+    pp.add_str(element_dic_inv["nivel_alert_tensao_min"], str(ac.nivel_alert_tensao_min))
+    pp.add_str(element_dic_inv["nivel_alert_temp_max"], str(ac.nivel_alert_temp_max))
+    pp.add_str(element_dic_inv["nivel_alert_temp_min"], str(ac.nivel_alert_temp_min))
+    pp.add_str(element_dic_inv["nivel_alert_impedancia_max"], str(ac.nivel_alert_impedancia_max))
+    pp.add_str(element_dic_inv["nivel_alert_impedancia_min"], str(ac.nivel_alert_impedancia_min))
+    pp.add_str(element_dic_inv["nivel_max_tensao_ativo"], str(ac.nivel_max_tensao_ativo))
+    pp.add_str(element_dic_inv["nivel_max_tensao_val"], str(ac.nivel_max_tensao_val))
+    pp.add_str(element_dic_inv["alarme_nivel_tensao_max"], str(ac.alarme_nivel_tensao_max))
+    pp.add_str(element_dic_inv["alarme_nivel_tensao_min"], str(ac.alarme_nivel_tensao_min))
+    pp.add_str(element_dic_inv["alarme_nivel_temp_max"], str(ac.alarme_nivel_temp_max))
+    pp.add_str(element_dic_inv["alarme_nivel_temp_min"], str(ac.alarme_nivel_temp_min))
+    pp.add_str(element_dic_inv["alarme_nivel_imped_max"], str(ac.alarme_nivel_imped_max))
+    pp.add_str(element_dic_inv["alarme_nivel_imped_min"], str(ac.alarme_nivel_imped_min))
+    pp.add_str(element_dic_inv["alarme_nivel_tensaoBarr_min"], str(ac.alarme_nivel_tensaoBarr_min))
+    pp.add_str(element_dic_inv["alarme_nivel_tensaoBarr_max"], str(ac.alarme_nivel_tensaoBarr_max))
+    pp.add_str(element_dic_inv["alarme_nivel_target_min"], str(ac.alarme_nivel_target_min))
+    pp.add_str(element_dic_inv["alarme_nivel_target_max"], str(ac.alarme_nivel_target_max))
+
+def addApelidoStringToOIDs(ap_list, pp):
+    logging.info("Adiciona apelidos nos OIDs")
+    i = 1
+    for item in ap_list:
+        pp.add_str(element_dic_inv["ap_string"] + "." + str(i), item.string)
+        pp.add_str(element_dic_inv["apelido"] + "." + str(i), item.apelido)
+        i += 1
+
 def addBateriaToOIDs(bat_list, pp):
     # Add table lines to "bateria"
     i = 1
@@ -108,26 +167,52 @@ def addBateriaToOIDs(bat_list, pp):
         # pp.add_str(element_dic_inv["status"] + str(i), "Sem Alarme")
         i += 1
 
+def addAlarmToOIDs(alarms, pp):
+    # Add table lines to "bateria"
+    i = alarm_table_count + 1
+    for item in alarms:
+        logging.info("Adiciona alarme {} nos OIDs".format(i))
+        pp.add_str(element_dic_inv["alarm_index"] + "." + str(i), item.id)
+        pp.add_str(element_dic_inv["descricaoAlarm"] + "." + str(i), item.descricao)
+        pp.add_int(element_dic_inv["emailEnviado"] + "." + str(i), item.emailEnviado)
+        pp.add_int(element_dic_inv["n_ocorrencias"] + "." + str(i), item.n_ocorrencias)
+        i += 1
+
 def main_update():
     logging.info("Main update")
     session = Session()
     logging.info("Aberta sessao com o BD")
     # Query parameters from database, one object at a time
+    # These go to the "settings" object
     p = session.query(Parameters).first()
     # Post parameters related to that object
     addParametersToOIDs(p, pp)
-
     m = session.query(Modulo).first()
     addModultoToOIDs(m, pp)
-
-    u = session.query(Usuario).first()
+    u = session.query(Usuario)
     addUsuarioToOIDs(u, pp)
-
     r = session.query(RedeSeguranca).first()
     addRedeToOIDs(r, pp)
+    e = session.query(EmailServer).first()
+    addEmailServerToOIDs(e, pp)
+    t = session.query(TimeServer).first()
+    addTimeServerToOIDs(t, pp)
+    ac = session.query(AlarmeConfig).first()
+    addAlarmeConfigToOIDs(ac, pp)
+    ap = session.query(ApelidoString)
+    addApelidoStringToOIDs(ap, pp)
 
+    # These should go to the "alarmes" object
+    # Check alarm table, if we have new entries (after the stored offset)
+    a = session.query(AlarmLog).offset(alarm_table_count)
+    if a.count() > 0:
+        addAlarmToOIDs(a, pp)
+
+    # These should go to the "bateria" object
+    # "DatalogRT" e "Datalog".
     dlog = session.query(DataLogRT).limit(int(m.n_baterias_por_strings * m.n_strings))
     addBateriaToOIDs(dlog, pp)
+
     session.close()
 
 logging.info("Registra OID")

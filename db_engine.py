@@ -58,6 +58,10 @@ class AlarmeConfig(Base):
     alarme_nivel_temp_min = Column(Float)
     alarme_nivel_imped_max = Column(Float)
     alarme_nivel_imped_min = Column(Float)
+    alarme_nivel_tensaoBarr_min = Column(Float)
+    alarme_nivel_tensaoBarr_max = Column(Float)
+    alarme_nivel_target_min = Column(Float)
+    alarme_nivel_target_max = Column(Float)
 
 class RedeSeguranca(Base):
     __tablename__ = "RedeSeguranca"
@@ -124,6 +128,7 @@ class AlarmLog(Base):
     dataHora = Column(String)
     descricao = Column(String)
     emailEnviado = Column(Integer)
+    n_ocorrencias = Column(Integer)
 
 class Parameters(Base):
     __tablename__ = "Parameters"
@@ -148,3 +153,9 @@ class Parameters(Base):
     param8 = Column(String)
     param9 = Column(String)
     param10 = Column(String)
+
+class ApelidoString(Base):
+    __tablename__ = "ApelidoString"
+
+    string = Column(String, primary_key=True)
+    apelido = Column(String)
