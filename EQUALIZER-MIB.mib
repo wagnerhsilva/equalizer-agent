@@ -807,8 +807,7 @@ BateriaEntry ::= SEQUENCE {
     tensao        DisplayString,
     temperatura     DisplayString,
     impedancia    DisplayString,
-    equalizacao   DisplayString,
-    status        DisplayString
+    equalizacao   DisplayString
 }
 
 bateriaIndex OBJECT-TYPE
@@ -866,14 +865,6 @@ equalizacao OBJECT-TYPE
     DESCRIPTION
             "Equalizacao da bateria."
     ::= { bateriaEntry 7 }
-
-status OBJECT-TYPE
-    SYNTAX     DisplayString
-    MAX-ACCESS read-only
-    STATUS     current
-    DESCRIPTION
-            "Impedancia da bateria."
-    ::= { bateriaEntry 8 }
 
 tensaoBarr OBJECT-TYPE
     SYNTAX     DisplayString
@@ -1008,7 +999,6 @@ bateriasGroup OBJECT-GROUP
       temperatura,
       impedancia,
       equalizacao,
-      status,
       tensaoBarr,
       target
     }
