@@ -101,7 +101,6 @@
   "2.1.5": "temperatura",
   "2.1.6": "impedancia",
   "2.1.7": "equalizacao",
-  "2.1.8": "status",
   "2.2" : "target",
   "2.3" : "tensBarr",
   "3.1.1": "alarm_index",

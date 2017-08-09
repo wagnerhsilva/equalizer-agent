@@ -17,9 +17,6 @@ logging.info("Iniciando agente extra")
 # Create DB sessionmaker, every request will have open and close a new session
 Session = sessionmaker(bind=engine)
 
-# Create counter for alarm entries
-alarm_table_count = 0
-
 # Load json
 # with open("/home/prjs/cm_comandos_lineares/equalizer-agent/element_mib.json", "r") as fd:
 with open("/home/root/equalizer-agent/element_mib.json", "r") as fd:
@@ -163,9 +160,6 @@ def addBateriaToOIDs(bat_list, pp, n_bat, n_string):
         pp.add_str(element_dic_inv["temperatura"] + "." + str(i), str(item.temperatura/1000))
         pp.add_str(element_dic_inv["impedancia"] + "." + str(i), str(item.impedancia/1000))
         pp.add_str(element_dic_inv["equalizacao"] + "." + str(i), str(item.equalizacao/1000))
-        # Check if an alarm should be triggered and send "Com Alarme"
-        pp.add_str(element_dic_inv["status"] + "." + str(i), "Com Alarme")
-        # pp.add_str(element_dic_inv["status"] + str(i), "Sem Alarme")
         # Sum values to get target and tensBarr
         target += item.tensao
         i += 1
@@ -174,7 +168,7 @@ def addBateriaToOIDs(bat_list, pp, n_bat, n_string):
 
 def addAlarmToOIDs(alarms, pp):
     # Add table lines to "bateria"
-    i = alarm_table_count + 1
+    i = 1
     for item in alarms:
         logging.info("Adiciona alarme {} nos OIDs".format(i))
         pp.add_str(element_dic_inv["alarm_index"] + "." + str(i), item.id)
@@ -208,10 +202,9 @@ def main_update():
     addApelidoStringToOIDs(ap, pp)
 
     # These should go to the "alarmes" object
-    # Check alarm table, if we have new entries (after the stored offset)
-    a = session.query(AlarmLog).offset(alarm_table_count)
-    if a.count() > 0:
-        addAlarmToOIDs(a, pp)
+    # Check alarm table, and return the last 15 entries
+    a = session.query(AlarmLog).order_by(AlarmLog.dataHora.desc()).limit(15)
+    addAlarmToOIDs(a, pp)
 
     # These should go to the "bateria" object
     # "DatalogRT" e "Datalog".
