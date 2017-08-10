@@ -30,7 +30,7 @@ logging.info("Carregado arquivo de elmentos/OID")
 
 def addParametersToOIDs(parameter, pp):
     logging.info("Adiciona parameter nos OIDs")
-    pp.add_str(element_dic_inv["avg_max"], parameter.avg_last)
+    pp.add_str(element_dic_inv["avg_last"], parameter.avg_last)
     pp.add_str(element_dic_inv["duty_min"], parameter.duty_min)
     pp.add_str(element_dic_inv["duty_max"], parameter.duty_max)
     pp.add_str(element_dic_inv["cte_index"], parameter.cte_index)

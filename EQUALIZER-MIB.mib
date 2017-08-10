@@ -39,7 +39,7 @@ parametersEntry OBJECT-IDENTITY
             "Parameters table"
     ::= { settingsObject 1 }
 
-avgMax OBJECT-TYPE
+avgLast OBJECT-TYPE
     SYNTAX      DisplayString
     MAX-ACCESS  read-only
     STATUS      current
@@ -919,7 +919,7 @@ equalizerComplianceRev1 MODULE-COMPLIANCE
 
 parameterGroup OBJECT-GROUP
     OBJECTS {
-      avgMax,
+      avgLast,
       dutyMin,
       dutyMax,
       cteIndex,
