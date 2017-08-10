@@ -9,7 +9,7 @@ import logging
 import snmp_passpersist as snmp
 
 # logging.basicConfig(filename='/home/prjs/cm_comandos_lineares/equalizer-agent/log.log',level=logging.DEBUG,
-logging.basicConfig(filename='/home/root/equalizer-agent/log.log',level=logging.DEBUG,
+logging.basicConfig(filename='/var/www/equalizer-agent/log.log',level=logging.DEBUG,
                     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
                     datefmt='%m-%d %H:%M')
 logging.info("Iniciando agente extra")
@@ -19,7 +19,7 @@ Session = sessionmaker(bind=engine)
 
 # Load json
 # with open("/home/prjs/cm_comandos_lineares/equalizer-agent/element_mib.json", "r") as fd:
-with open("/home/root/equalizer-agent/element_mib.json", "r") as fd:
+with open("/var/www/equalizer-agent/element_mib.json", "r") as fd:
     element_dic = json.loads(fd.read())
     # Set up inverted lookup
     element_dic_inv = {}

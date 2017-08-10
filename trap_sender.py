@@ -15,7 +15,7 @@ def sendTrap(snmpEngine, object_value_list):
                           ContextData(), 'trap', object_value_list))
 
 def trapCheckingLoop(snmpEngine, displayString):
-    logging.basicConfig(filename='/home/root/equalizer-agent/trapLog.log',level=logging.DEBUG,
+    logging.basicConfig(filename='/var/www/equalizer-agent/trapLog.log',level=logging.DEBUG,
                         format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
                         datefmt='%m-%d %H:%M')
     logging.info("Iniciando monitor de traps")
@@ -24,7 +24,7 @@ def trapCheckingLoop(snmpEngine, displayString):
     session = Session()
     # Read the trap counter from file, and if it fails assume we have to send everything
     try:
-        with open("/home/root/equalizer-agent/trapCount", "r") as fd:
+        with open("/var/www/equalizer-agent/trapCount", "r") as fd:
             alarm_count = int(fd.read())
     except:
         alarm_count = 0
@@ -43,7 +43,7 @@ def trapCheckingLoop(snmpEngine, displayString):
 
             alarm_count += al.count()
             # Save the number of alarms emmited
-            with open("/home/root/equalizer-agent/trapCount", "w") as fd:
+            with open("/var/www/equalizer-agent/trapCount", "w") as fd:
                 fd.write(str(alarm_count))
 
         # Wait some time before checking the table again

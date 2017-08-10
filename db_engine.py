@@ -4,7 +4,7 @@ from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
 
 # engine = create_engine('sqlite:////home/prjs/cm_comandos_lineares/equalizer-agent/equalizerdb', echo=False)
-engine = create_engine('sqlite:////home/root/equalizer-agent/equalizerdb', echo=False)
+engine = create_engine('sqlite:////var/www/equalizer-api/equalizer-api/equalizerdb', echo=False)
 
 Base = declarative_base()
 
