@@ -883,12 +883,87 @@ target OBJECT-TYPE
     ::= { bateriaObject 3 }
 
 bateriaLogTable OBJECT-TYPE
-    SYNTAX     SEQUENCE OF BateriaEntry
+    SYNTAX     SEQUENCE OF BateriaLogEntry
     MAX-ACCESS not-accessible
     STATUS     current
     DESCRIPTION
             "Tabela com os dados historicos de baterias do modulo"
     ::= { bateriaObject 4 }
+
+bateriaLogEntry OBJECT-TYPE
+    SYNTAX     BateriaLogEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+            "An entry (conceptual row) in the sysORTable."
+    INDEX      { bateriaLogIndex }
+    ::= { bateriaLogTable 1 }
+
+BateriaLogEntry ::= SEQUENCE {
+    bateriaLogIndex  Integer32,
+    stringLog     DisplayString,
+    bateriaLog     DisplayString,
+    tensaoLog        DisplayString,
+    temperaturaLog     DisplayString,
+    impedanciaLog    DisplayString,
+    equalizacaoLog   DisplayString
+}
+
+bateriaLogIndex OBJECT-TYPE
+    SYNTAX     Integer32(1..256)
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+            "Indice da tabela, corresponde ao ID do BD."
+    ::= { bateriaLogEntry 1 }
+
+stringLog OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Identificador do banco."
+    ::= { bateriaLogEntry 2 }
+
+bateriaLog OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Identificador da bateria no banco."
+    ::= { bateriaLogEntry 3 }
+
+tensaoLog OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Tensao da bateria."
+    ::= { bateriaLogEntry 4 }
+
+temperaturaLog OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Temperatura da bateria."
+    ::= { bateriaLogEntry 5 }
+
+impedanciaLog OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Impedancia da bateria."
+    ::= { bateriaLogEntry 6 }
+
+equalizacaoLog OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Equalizacao da bateria."
+    ::= { bateriaLogEntry 7 }
 
 alarmeObject OBJECT-IDENTITY
     STATUS  current
@@ -1071,7 +1146,13 @@ bateriasGroup OBJECT-GROUP
       impedancia,
       equalizacao,
       tensaoBarr,
-      target
+      target,
+      stringLog,
+      bateriaLog,
+      tensaoLog,
+      temperaturaLog,
+      impedanciaLog,
+      equalizacaoLog
     }
     STATUS  current
     DESCRIPTION
