@@ -890,6 +890,68 @@ bateriaLogTable OBJECT-TYPE
             "Tabela com os dados historicos de baterias do modulo"
     ::= { bateriaObject 4 }
 
+alarmeObject OBJECT-IDENTITY
+    STATUS  current
+    DESCRIPTION
+            "Alarme object"
+    ::= { equalizer 3 }
+
+alarmeTable OBJECT-TYPE
+    SYNTAX     SEQUENCE OF AlarmeEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+            "Tabela com os alarmes do modulo"
+    ::= { alarmeObject 1 }
+
+alarmeEntry OBJECT-TYPE
+    SYNTAX     AlarmeEntry
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+            "Alarm entry."
+    INDEX      { alarmeIndex }
+    ::= { alarmeTable 1 }
+
+AlarmeEntry ::= SEQUENCE {
+    alarmeIndex  Integer32,
+    descricaoAlarm     Integer32,
+    emailEnviado     DisplayString,
+    nOcorrencias        DisplayString
+}
+
+alarmeIndex OBJECT-TYPE
+    SYNTAX     Integer32(1..256)
+    MAX-ACCESS not-accessible
+    STATUS     current
+    DESCRIPTION
+            "Indice da tabela, corresponde ao ID do BD."
+    ::= { alarmeEntry 1 }
+
+descricaoAlarm OBJECT-TYPE
+    SYNTAX     Integer32
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Descricao"
+    ::= { alarmeEntry 2 }
+
+emailEnviado OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Descricao"
+    ::= { alarmeEntry 3 }
+
+nOcorrencias OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "Descricao"
+    ::= { alarmeEntry 4 }
+
 ---
 --- equalizerConformance
 ---
@@ -913,7 +975,8 @@ equalizerComplianceRev1 MODULE-COMPLIANCE
                   emailServerGroup,
                   timeServerGroup,
                   alarmeConfigGroup,
-                  apelidoStringGroup
+                  apelidoStringGroup,
+                  alarmeGroup
                 }
     ::= { equalizerCompliance 1 }
 
@@ -1083,6 +1146,17 @@ apelidoStringGroup OBJECT-GROUP
     DESCRIPTION
           "ApelidoString group."
     ::= { equalizerGroups 9 }
+
+alarmeGroup OBJECT-GROUP
+    OBJECTS {
+      descricaoAlarm,
+      emailEnviado,
+      nOcorrencias
+    }
+    STATUS  current
+    DESCRIPTION
+          "AlarmeLog group."
+    ::= { equalizerGroups 10 }
 
 
 END
