@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 from pysnmp.hlapi import *
 from sqlalchemy.orm import sessionmaker
-from db_engine import engine, AlarmLog
+from db_engine import engine, AlarmLog, SNMPConfig
 import json
 import logging
 import time
 
-def sendTrap(snmpEngine, object_value_list):
+def sendTrap(snmpEngine, object_value_list, trapDestination, trapPort):
     # object_value_list must be something like this
     # [ObjectType(ObjectIdentity('1.3.6.1.2.1.1.1.0'), OctetString('my string')),
     # ObjectType(ObjectIdentity('1.3.6.1.2.1.1.3.0'), Integer32(42))]))
     next(sendNotification(snmpEngine,CommunityData('public'),
-                          UdpTransportTarget(('192.168.1.149', 162)),
+                          UdpTransportTarget((trapDestination, trapPort)),
                           ContextData(), 'trap', object_value_list))
 
 def trapCheckingLoop(snmpEngine, displayString):
@@ -22,6 +22,15 @@ def trapCheckingLoop(snmpEngine, displayString):
     # Cria sessão com BD
     Session = sessionmaker(bind=engine)
     session = Session()
+    # If the configuration table does not exist, create entry
+    cfg = session.query(SNMPConfig).count()
+    if cfg == 0:
+        snmpCfg = SNMPConfig(id=1, trapDestination='192.168.1.149', trapPort=162, trapSendPeriod=30, agentUpdatePeriod=60)
+        session.add(snmpCfg)
+        session.commit()
+    else:
+        snmpCfg = session.query(SNMPConfig).first()
+
     # Read the trap counter from file, and if it fails assume we have to send everything
     try:
         with open("/var/www/equalizer-agent/trapCount", "r") as fd:
@@ -39,7 +48,7 @@ def trapCheckingLoop(snmpEngine, displayString):
             object_list = []
             for item in al:
                 object_list.append(ObjectType(ObjectIdentity('1.3.6.1.4.1.39178.100.1.10'), displayString(item.descricao)))
-            sendTrap(snmpEngine, object_list)
+            sendTrap(snmpEngine, object_list, snmpCfg.trapDestination, snmpCfg.trapPort)
 
             alarm_count += al.count()
             # Save the number of alarms emmited
@@ -47,7 +56,7 @@ def trapCheckingLoop(snmpEngine, displayString):
                 fd.write(str(alarm_count))
 
         # Wait some time before checking the table again
-        time.sleep(30)
+        time.sleep(snmpCfg.trapSendPeriod)
 
 if __name__ == "__main__":
     # Set the snmpEngine to enable translation

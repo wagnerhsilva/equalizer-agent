@@ -172,3 +172,17 @@ class ApelidoString(Base):
 
     string = Column(String, primary_key=True)
     apelido = Column(String)
+
+# SNMP Configuration table
+class SNMPConfig(Base):
+    __tablename__ = "SNMPConfig"
+
+    id = Column(Integer, primary_key=True)
+    trapDestination = Column(String)
+    trapPort = Column(Integer)
+    trapSendPeriod = Column(Integer)
+    agentUpdatePeriod = Column(Integer)
+
+# Create the table if it does not exist
+if not engine.dialect.has_table(engine, "SNMPConfig"):
+    Base.metadata.tables["SNMPConfig"].create(bind = engine)
