@@ -1,12 +1,12 @@
 #!/bin/sh
 workdir=/var/www/equalizer-agent
- 
+
 start() {
     cd $workdir
     /usr/bin/python /var/www/equalizer-agent/trap_sender.py &
     echo "Server started."
 }
- 
+
 stop() {
     pid=`ps -ef | grep '[p]ython /var/www/equalizer-agent/trap_sender.py' | awk '{ print $2 }'`
     echo $pid
@@ -14,20 +14,20 @@ stop() {
     sleep 2
     echo "Server killed."
 }
- 
+
 case "$1" in
   start)
     start
     ;;
   stop)
-    stop   
+    stop
     ;;
   restart)
     stop
     start
     ;;
   *)
-    echo "Usage: /etc/init.d/tornado-tts {start|stop|restart}"
+    echo "Usage: /etc/init.d/equalizer-traps {start|stop|restart}"
     exit 1
 esac
 exit 0
