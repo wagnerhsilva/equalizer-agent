@@ -2,9 +2,12 @@
 workdir=/var/www/equalizer-agent
 
 start() {
-    cd $workdir
-    /usr/bin/python /var/www/equalizer-agent/trap_sender.py &
-    echo "Server started."
+    pid=`ps -ef | grep '[p]ython /var/www/equalizer-agent/trap_sender.py' | awk '{ print $2 }'`
+    if [ -z "$pid" ]; then
+      cd $workdir
+      /usr/bin/python /var/www/equalizer-agent/trap_sender.py &
+      echo "Server started."
+    fi
 }
 
 stop() {
