@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from pysnmp.hlapi import *
 from sqlalchemy.orm import sessionmaker
-from db_engine import engine, AlarmLog, SNMPConfig
+from db_engine import engine, AlarmLog, Parameters
 import json
 import logging
 import time
@@ -22,41 +22,36 @@ def trapCheckingLoop(snmpEngine, displayString):
     # Cria sessão com BD
     Session = sessionmaker(bind=engine)
     session = Session()
-    # If the configuration table does not exist, create entry
-    cfg = session.query(SNMPConfig).count()
-    if cfg == 0:
-        snmpCfg = SNMPConfig(id=1, trapDestination='192.168.1.149', trapPort=162, trapSendPeriod=30, agentUpdatePeriod=60)
-        session.add(snmpCfg)
-        session.commit()
-    else:
-        snmpCfg = session.query(SNMPConfig).first()
+    # If the parameters table does not exist, do nothing
+    cfg = session.query(Parameters).first()
+    if cfg:
+        logging.info("Parametros {0} {1} {2}".format(cfg.param3, cfg.param4, cfg.param5))
+        # Read the trap counter from file, and if it fails assume we have to send everything
+        try:
+            with open("/var/www/equalizer-agent/trapCount", "r") as fd:
+                alarm_count = int(fd.read())
+        except:
+            alarm_count = 0
 
-    # Read the trap counter from file, and if it fails assume we have to send everything
-    try:
-        with open("/var/www/equalizer-agent/trapCount", "r") as fd:
-            alarm_count = int(fd.read())
-    except:
-        alarm_count = 0
+        logging.info("Alarm count iniciando em {}".format(alarm_count))
 
-    logging.info("Alarm count iniciando em {}".format(alarm_count))
+        # Read the DB, check if there is another registry in the DB and send it as a trap
+        while True:
+            al = session.query(AlarmLog).offset(alarm_count)
+            logging.info("{} novas entradas".format(al.count()))
+            if al.count() > 0:
+                object_list = []
+                for item in al:
+                    object_list.append(ObjectType(ObjectIdentity('1.3.6.1.4.1.39178.100.1.10'), displayString(item.descricao)))
+                sendTrap(snmpEngine, object_list, cfg.param3, int(cfg.param4))
 
-    # Read the DB, check if there is another registry in the DB and send it as a trap
-    while True:
-        al = session.query(AlarmLog).offset(alarm_count)
-        logging.info("{} novas entradas".format(al.count()))
-        if al.count() > 0:
-            object_list = []
-            for item in al:
-                object_list.append(ObjectType(ObjectIdentity('1.3.6.1.4.1.39178.100.1.10'), displayString(item.descricao)))
-            sendTrap(snmpEngine, object_list, snmpCfg.trapDestination, snmpCfg.trapPort)
+                alarm_count += al.count()
+                # Save the number of alarms emmited
+                with open("/var/www/equalizer-agent/trapCount", "w") as fd:
+                    fd.write(str(alarm_count))
 
-            alarm_count += al.count()
-            # Save the number of alarms emmited
-            with open("/var/www/equalizer-agent/trapCount", "w") as fd:
-                fd.write(str(alarm_count))
-
-        # Wait some time before checking the table again
-        time.sleep(snmpCfg.trapSendPeriod)
+            # Wait some time before checking the table again
+            time.sleep(int(cfg.param5))
 
 if __name__ == "__main__":
     # Set the snmpEngine to enable translation

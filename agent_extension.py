@@ -1,6 +1,7 @@
 #!/usr/bin/python -u
+# -*- coding: utf-8 -*-
 from sqlalchemy.orm import sessionmaker
-from db_engine import engine, Usuario, Modulo, AlarmeConfig, RedeSeguranca, DataLogRT, SNMPConfig
+from db_engine import engine, Usuario, Modulo, AlarmeConfig, RedeSeguranca, DataLogRT
 from db_engine import TimeServer, EmailServer, AlarmLog, Parameters, ApelidoString, DataLog
 import json
 import sys
@@ -234,11 +235,10 @@ logging.info("Registra OID")
 pp = snmp.PassPersist('.1.3.6.1.4.1.39178.100.1')
 # If the configuration table does not exist, create entry
 cfgsession = Session()
-cfg = cfgsession.query(SNMPConfig).count()
-if cfg == 0:
-    snmpCfg = SNMPConfig(id=1, trapDestination='192.168.1.149', trapPort=162, trapSendPeriod=30, agentUpdatePeriod=60)
-    cfgsession.add(snmpCfg)
-    cfgsession.commit()
+cfg = cfgsession.query(Parameters).first()
+if cfg:
+    logging.info("Agente com periodicidade {}s".format(cfg.param6))
+    pp.start(main_update, int(cfg.param6))
 else:
-    snmpCfg = cfgsession.query(SNMPConfig).first()
-pp.start(main_update, snmpCfg.agentUpdatePeriod)
+    logging.info("Periodicidade (param6) inacessível, usando padrão(60s)")
+    pp.start(main_update, 60)
