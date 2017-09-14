@@ -1,8 +1,0 @@
-{
-  "trapSender": "on",
-  "snmpAgent": "on",
-  "trapDestination" : "192.168.1.149",
-  "trapPort": 162,
-  "trapSendPeriod": 30,
-  "agentUpdatePeriod": 60
-}
