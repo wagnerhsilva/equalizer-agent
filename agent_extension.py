@@ -237,8 +237,8 @@ pp = snmp.PassPersist('.1.3.6.1.4.1.39178.100.1')
 cfgsession = Session()
 cfg = cfgsession.query(Parameters).first()
 if cfg:
-    logging.info("Agente com periodicidade {}s".format(cfg.param6))
-    pp.start(main_update, int(cfg.param6))
+    logging.info("Agente com periodicidade {}s".format(cfg.param7))
+    pp.start(main_update, int(cfg.param7))
 else:
-    logging.info("Periodicidade (param6) inacessível, usando padrão(60s)")
+    logging.info("Periodicidade (param7) inacessível, usando padrão(60s)")
     pp.start(main_update, 60)

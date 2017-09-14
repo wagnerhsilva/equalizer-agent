@@ -25,7 +25,7 @@ def trapCheckingLoop(snmpEngine, displayString):
     # If the parameters table does not exist, do nothing
     cfg = session.query(Parameters).first()
     if cfg:
-        logging.info("Parametros {0} {1} {2}".format(cfg.param3, cfg.param4, cfg.param5))
+        logging.info("Parametros {0} {1} {2}".format(cfg.param4, cfg.param5, cfg.param6))
         # Read the trap counter from file, and if it fails assume we have to send everything
         try:
             with open("/var/www/equalizer-agent/trapCount", "r") as fd:
@@ -43,7 +43,7 @@ def trapCheckingLoop(snmpEngine, displayString):
                 object_list = []
                 for item in al:
                     object_list.append(ObjectType(ObjectIdentity('1.3.6.1.4.1.39178.100.1.10'), displayString(item.descricao)))
-                sendTrap(snmpEngine, object_list, cfg.param3, int(cfg.param4))
+                sendTrap(snmpEngine, object_list, cfg.param4, int(cfg.param5))
 
                 alarm_count += al.count()
                 # Save the number of alarms emmited
@@ -51,7 +51,7 @@ def trapCheckingLoop(snmpEngine, displayString):
                     fd.write(str(alarm_count))
 
             # Wait some time before checking the table again
-            time.sleep(int(cfg.param5))
+            time.sleep(int(cfg.param6))
 
 if __name__ == "__main__":
     # Set the snmpEngine to enable translation
