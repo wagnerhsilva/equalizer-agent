@@ -143,6 +143,31 @@ class AlarmLog(Base):
     emailEnviado = Column(Integer)
     n_ocorrencias = Column(Integer)
 
+class SnmpCfgs(Base):
+    __tablename__ = "SnmpCfgs"
+    
+    id = Column(Integer, primary_key=True)
+    Running = Column(Integer)
+    Version = Column(Integer)
+    Security = Column(Integer)
+    User = Column(String)
+    Pass = Column(String)
+
+class SnmpCommunities(Base):
+    __tablename__ = "SnmpCommunities"
+    
+    id = Column(Integer, primary_key=True)
+    Address = Column(String)
+    Community = Column(String)
+    Permission = Column(Integer)
+
+class SnmpTraps(Base):
+    __tablename__ = "SnmpTraps"
+
+    id = Column(Integer, primary_key=True)
+    Address = Column(String)
+    Community = Column(String)
+
 class Parameters(Base):
     __tablename__ = "Parameters"
 
